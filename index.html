@@ -29,11 +29,10 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 25px;
   font-weight: bold;
 }
 
@@ -42,20 +41,90 @@ header {
   opacity: .8;
 }
 
-.admin-button {
-  background: white;
-  color: #10233f;
-  border: 0;
-  border-radius: 10px;
-  padding: 11px 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
 main {
   max-width: 1200px;
   margin: auto;
   padding: 24px;
+}
+
+/* PIN */
+
+.pin-screen {
+  max-width: 430px;
+  margin: 35px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 5px 25px rgba(0,0,0,.08);
+  text-align: center;
+}
+
+.pin-screen h2 {
+  margin-top: 0;
+}
+
+.pin-display {
+  font-size: 30px;
+  letter-spacing: 10px;
+  margin: 25px 0;
+  min-height: 38px;
+}
+
+.pin-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pin-key {
+  height: 65px;
+  border: 0;
+  border-radius: 12px;
+  background: #f0f4f8;
+  color: #10233f;
+  font-size: 22px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.pin-key:hover {
+  background: #dce6f2;
+}
+
+.pin-enter {
+  background: #2457d6;
+  color: white;
+}
+
+.pin-delete {
+  background: #f5e9e9;
+}
+
+.message {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 9px;
+  display: none;
+}
+
+.message.show {
+  display: block;
+}
+
+.message.error {
+  background: #ffe5e5;
+  color: #a40000;
+}
+
+.message.success {
+  background: #e4f7e9;
+  color: #126b2d;
+}
+
+/* Lager */
+
+.lager {
+  display: none;
 }
 
 .search {
@@ -65,6 +134,25 @@ main {
   border-radius: 12px;
   font-size: 18px;
   margin-bottom: 20px;
+}
+
+.user-bar {
+  background: white;
+  padding: 15px 18px;
+  border-radius: 12px;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.logout {
+  border: 1px solid #ccd6e0;
+  background: white;
+  border-radius: 9px;
+  padding: 10px 14px;
+  cursor: pointer;
 }
 
 .categories {
@@ -91,16 +179,24 @@ main {
 .info {
   background: white;
   border-radius: 14px;
-  padding: 20px;
+  padding: 25px;
   box-shadow: 0 3px 12px rgba(0,0,0,.06);
 }
 
-.admin-panel {
-  display: none;
+.admin-button {
+  background: white;
+  color: #10233f;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-.admin-panel.show {
-  display: block;
+/* Admin */
+
+.admin-panel {
+  display: none;
 }
 
 .login-box {
@@ -109,27 +205,19 @@ main {
   background: white;
   padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 5px 20px rgba(0,0,0,.08);
 }
 
-.login-box h2 {
-  margin-top: 0;
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 15px;
 }
 
-label {
-  display: block;
-  font-weight: bold;
-  margin-top: 16px;
-  margin-bottom: 7px;
-}
-
-input,
-select {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid #ccd6e0;
-  border-radius: 9px;
-  font-size: 16px;
+.admin-card {
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.06);
 }
 
 .primary {
@@ -153,112 +241,26 @@ select {
   cursor: pointer;
 }
 
-.message {
-  margin-top: 15px;
-  padding: 12px;
-  border-radius: 9px;
-  display: none;
-}
-
-.message.show {
-  display: block;
-}
-
-.message.error {
-  background: #ffe5e5;
-  color: #a40000;
-}
-
-.message.success {
-  background: #e4f7e9;
-  color: #126b2d;
-}
-
-.admin-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-  margin: 25px 0;
-}
-
-.admin-card {
-  background: white;
-  border-radius: 14px;
-  padding: 22px;
-  box-shadow: 0 3px 12px rgba(0,0,0,.06);
-}
-
-.admin-card .icon {
-  font-size: 30px;
-}
-
-.admin-card h3 {
-  margin-bottom: 5px;
-}
-
-.employee-list {
-  margin-top: 25px;
-}
-
-.employee {
-  background: white;
-  border-radius: 12px;
-  padding: 15px 18px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.employee-status {
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.active-status {
-  color: #138a3d;
-}
-
-.empty {
-  padding: 25px;
-  text-align: center;
-  color: #64748b;
-  background: white;
-  border-radius: 12px;
-}
-
 .hidden {
   display: none !important;
 }
 
-.top-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-@media (max-width: 700px) {
-  header {
-    padding: 15px;
-  }
+@media(max-width:700px) {
 
   main {
     padding: 15px;
   }
 
+  header {
+    padding: 15px;
+  }
+
   .header-inner {
-    align-items: flex-start;
-  }
-
-  .admin-button {
-    padding: 9px 12px;
-  }
-
-  .employee {
-    align-items: flex-start;
     gap: 10px;
+  }
+
+  .logo {
+    font-size: 21px;
   }
 }
 </style>
@@ -267,6 +269,7 @@ select {
 <body>
 
 <header>
+
   <div class="header-inner">
 
     <div>
@@ -279,247 +282,360 @@ select {
     </button>
 
   </div>
+
 </header>
+
 
 <main>
 
-  <!-- NORMALE LAGERANSICHT -->
-  <section id="lagerAnsicht">
+<!-- ========================= -->
+<!-- PIN LOGIN -->
+<!-- ========================= -->
+
+<section id="pinScreen" class="pin-screen">
+
+  <h2>👷 Mitarbeiter-Anmeldung</h2>
+
+  <p>Bitte deine 4-stellige PIN eingeben.</p>
+
+  <div id="pinDisplay" class="pin-display">
+    • • • •
+  </div>
+
+  <div class="pin-keypad">
+
+    <button class="pin-key" onclick="pinTaste('1')">1</button>
+    <button class="pin-key" onclick="pinTaste('2')">2</button>
+    <button class="pin-key" onclick="pinTaste('3')">3</button>
+
+    <button class="pin-key" onclick="pinTaste('4')">4</button>
+    <button class="pin-key" onclick="pinTaste('5')">5</button>
+    <button class="pin-key" onclick="pinTaste('6')">6</button>
+
+    <button class="pin-key" onclick="pinTaste('7')">7</button>
+    <button class="pin-key" onclick="pinTaste('8')">8</button>
+    <button class="pin-key" onclick="pinTaste('9')">9</button>
+
+    <button class="pin-key pin-delete" onclick="pinLoeschen()">⌫</button>
+    <button class="pin-key" onclick="pinTaste('0')">0</button>
+    <button class="pin-key pin-enter" onclick="mitarbeiterLogin()">✓</button>
+
+  </div>
+
+  <div id="pinMessage" class="message"></div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- LAGER -->
+<!-- ========================= -->
+
+<section id="lagerBereich" class="lager">
+
+  <div class="user-bar">
+
+    <div>
+      👷 Angemeldet als:
+      <strong id="mitarbeiterName"></strong>
+    </div>
+
+    <button class="logout" onclick="abmelden()">
+      Abmelden
+    </button>
+
+  </div>
+
+
+  <input
+    id="suche"
+    class="search"
+    type="text"
+    placeholder="🔎 Artikel oder Artikelnummer suchen..."
+  >
+
+
+  <div class="categories">
+
+    <button class="category active">Alle</button>
+    <button class="category">Schrauben</button>
+    <button class="category">Muttern</button>
+    <button class="category">Fittings</button>
+    <button class="category">Rohre</button>
+
+  </div>
+
+
+  <div class="info">
+
+    <h2>📦 Lager</h2>
+
+    <p>
+      Suche hier nach dem benötigten Material.
+    </p>
+
+    <p>
+      Die Artikelverwaltung und die Entnahme-Funktionen
+      kommen als nächster Schritt.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- ADMIN LOGIN -->
+<!-- ========================= -->
+
+<section id="adminLogin" class="admin-panel">
+
+  <div class="login-box">
+
+    <h2>🔐 Admin-Anmeldung</h2>
+
+    <label>Admin-Schlüssel</label>
 
     <input
-      id="suche"
-      class="search"
-      type="text"
-      placeholder="🔎 Artikel oder Artikelnummer suchen..."
+      id="adminKey"
+      type="password"
+      style="width:100%;padding:13px;border:1px solid #ccd6e0;border-radius:9px;"
     >
 
-    <div class="categories">
-      <button class="category active">Alle</button>
-      <button class="category">Schrauben</button>
-      <button class="category">Muttern</button>
-      <button class="category">Fittings</button>
-      <button class="category">Rohre</button>
+    <button class="primary" onclick="adminLogin()">
+      🔓 Anmelden
+    </button>
+
+    <div id="adminMessage" class="message"></div>
+
+    <button
+      class="secondary"
+      style="margin-top:12px;width:100%;"
+      onclick="closeAdmin()"
+    >
+      Zurück
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ========================= -->
+<!-- ADMIN BEREICH -->
+<!-- ========================= -->
+
+<section id="adminBereich" class="admin-panel">
+
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+
+    <div>
+      <h2>⚙️ Admin-Bereich</h2>
+      <div>Stammdaten verwalten</div>
     </div>
 
-    <div class="info">
-      <h2>📦 Lagerverwaltung</h2>
-      <p>
-        Die eigentliche Artikelverwaltung bauen wir als nächsten Schritt
-        direkt auf diese Oberfläche.
-      </p>
-      <p>
-        Danach können Mitarbeiter Artikel suchen, einzelne Stücke oder
-        komplette Verpackungen entnehmen und Zugänge buchen.
-      </p>
+    <button class="secondary" onclick="closeAdmin()">
+      ← Lager
+    </button>
+
+  </div>
+
+
+  <div class="admin-grid">
+
+    <div class="admin-card">
+      <h3>👷 Mitarbeiter</h3>
+      <p>Mitarbeiter und PINs verwalten.</p>
     </div>
 
-  </section>
-
-
-  <!-- ADMIN LOGIN -->
-  <section id="adminLogin" class="admin-panel">
-
-    <div class="login-box">
-
-      <h2>🔐 Admin-Anmeldung</h2>
-
-      <p>
-        Nur der Administrator kann die Stammdaten des Lagers verändern.
-      </p>
-
-      <label for="adminKey">Admin-Schlüssel</label>
-
-      <input
-        id="adminKey"
-        type="password"
-        autocomplete="off"
-        placeholder="Admin-Schlüssel eingeben"
-      >
-
-      <button class="primary" onclick="adminLogin()">
-        🔓 Anmelden
-      </button>
-
-      <div id="loginMessage" class="message"></div>
-
-      <button
-        class="secondary"
-        style="margin-top:12px;width:100%;"
-        onclick="closeAdmin()"
-      >
-        Zurück zum Lager
-      </button>
-
+    <div class="admin-card">
+      <h3>📦 Artikel</h3>
+      <p>Artikel und Bestände verwalten.</p>
     </div>
 
-  </section>
-
-
-  <!-- ADMIN BEREICH -->
-  <section id="adminBereich" class="admin-panel">
-
-    <div class="top-actions">
-
-      <div>
-        <h2 style="margin-bottom:5px;">⚙️ Admin-Bereich</h2>
-        <div style="color:#64748b;">
-          Lagerverwaltung konfigurieren
-        </div>
-      </div>
-
-      <button class="secondary" onclick="closeAdmin()">
-        ← Lager
-      </button>
-
+    <div class="admin-card">
+      <h3>📍 Lagerorte</h3>
+      <p>Halle, Garage und Lagerplätze.</p>
     </div>
 
-
-    <div class="admin-grid">
-
-      <div class="admin-card">
-        <div class="icon">👷</div>
-        <h3>Mitarbeiter</h3>
-        <p>Mitarbeiter und 4-stellige PINs verwalten.</p>
-      </div>
-
-      <div class="admin-card">
-        <div class="icon">📦</div>
-        <h3>Artikel</h3>
-        <p>Artikel, Bestände und Verpackungen verwalten.</p>
-      </div>
-
-      <div class="admin-card">
-        <div class="icon">📍</div>
-        <h3>Lagerorte</h3>
-        <p>Halle, Garage und Lagerplätze verwalten.</p>
-      </div>
-
-      <div class="admin-card">
-        <div class="icon">🏗️</div>
-        <h3>Baustellen</h3>
-        <p>Baustellen für die Materialentnahme verwalten.</p>
-      </div>
-
+    <div class="admin-card">
+      <h3>🏗️ Baustellen</h3>
+      <p>Baustellen verwalten.</p>
     </div>
 
+  </div>
 
-    <!-- MITARBEITER -->
-    <div class="info">
-
-      <h2>👷 Mitarbeiter</h2>
-
-      <p>
-        Hier kannst du später alle Mitarbeiter anlegen.
-      </p>
-
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
-
-        <div>
-          <label for="mitarbeiterName">Name</label>
-
-          <input
-            id="mitarbeiterName"
-            type="text"
-            placeholder="z. B. Max Mustermann"
-          >
-        </div>
-
-        <div>
-          <label for="mitarbeiterPin">4-stellige PIN</label>
-
-          <input
-            id="mitarbeiterPin"
-            type="password"
-            inputmode="numeric"
-            maxlength="4"
-            placeholder="••••"
-          >
-        </div>
-
-      </div>
-
-      <button class="primary" onclick="mitarbeiterAnlegen()">
-        + Mitarbeiter anlegen
-      </button>
-
-      <div id="employeeMessage" class="message"></div>
-
-    </div>
-
-
-    <div class="employee-list">
-
-      <h2>Vorhandene Mitarbeiter</h2>
-
-      <div id="employeeList">
-        <div class="empty">
-          Mitarbeiter werden geladen...
-        </div>
-      </div>
-
-    </div>
-
-  </section>
+</section>
 
 </main>
 
 
 <script>
 
-function showSection(id) {
+let pin = "";
 
-  document.getElementById("lagerAnsicht").classList.add("hidden");
-  document.getElementById("adminLogin").classList.remove("show");
-  document.getElementById("adminBereich").classList.remove("show");
 
-  if (id === "lager") {
-    document.getElementById("lagerAnsicht").classList.remove("hidden");
+/* ========================= */
+/* PIN */
+/* ========================= */
+
+function pinTaste(zahl) {
+
+  if (pin.length >= 4) {
+    return;
   }
 
-  if (id === "login") {
-    document.getElementById("adminLogin").classList.add("show");
-  }
+  pin += zahl;
 
-  if (id === "admin") {
-    document.getElementById("adminBereich").classList.add("show");
+  pinAnzeige();
+
+  if (pin.length === 4) {
+    setTimeout(mitarbeiterLogin, 150);
   }
 }
 
 
+function pinLoeschen() {
+
+  pin = pin.slice(0, -1);
+
+  pinAnzeige();
+}
+
+
+function pinAnzeige() {
+
+  let text = "";
+
+  for (let i = 0; i < 4; i++) {
+
+    if (i < pin.length) {
+      text += "● ";
+    } else {
+      text += "○ ";
+    }
+
+  }
+
+  document.getElementById("pinDisplay").textContent =
+    text.trim();
+}
+
+
+async function mitarbeiterLogin() {
+
+  if (pin.length !== 4) {
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      "/api/mitarbeiter-login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          pin: pin
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+
+      showMessage(
+        "pinMessage",
+        data.error || "PIN ist nicht korrekt.",
+        "error"
+      );
+
+      pin = "";
+      pinAnzeige();
+
+      return;
+    }
+
+    document.getElementById(
+      "mitarbeiterName"
+    ).textContent = data.mitarbeiter.name;
+
+    document.getElementById(
+      "pinScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+      "lagerBereich"
+    ).style.display = "block";
+
+    document.getElementById(
+      "pinMessage"
+    ).className = "message";
+
+    pin = "";
+    pinAnzeige();
+
+  } catch (error) {
+
+    showMessage(
+      "pinMessage",
+      "Server nicht erreichbar.",
+      "error"
+    );
+
+  }
+}
+
+
+function abmelden() {
+
+  document.getElementById(
+    "lagerBereich"
+  ).style.display = "none";
+
+  document.getElementById(
+    "pinScreen"
+  ).style.display = "block";
+
+  pin = "";
+
+  pinAnzeige();
+}
+
+
+/* ========================= */
+/* ADMIN */
+/* ========================= */
+
 function openAdmin() {
-  showSection("login");
+
+  document.getElementById("pinScreen").style.display = "none";
+  document.getElementById("lagerBereich").style.display = "none";
+  document.getElementById("adminBereich").style.display = "none";
+  document.getElementById("adminLogin").style.display = "block";
 
   document.getElementById("adminKey").focus();
 }
 
 
 function closeAdmin() {
-  showSection("lager");
-}
 
+  document.getElementById("adminLogin").style.display = "none";
+  document.getElementById("adminBereich").style.display = "none";
 
-function showMessage(elementId, text, type) {
-
-  const element = document.getElementById(elementId);
-
-  element.textContent = text;
-  element.className = "message show " + type;
+  document.getElementById("pinScreen").style.display = "block";
 }
 
 
 async function adminLogin() {
 
-  const adminKey =
+  const key =
     document.getElementById("adminKey").value.trim();
 
-  if (!adminKey) {
-
-    showMessage(
-      "loginMessage",
-      "Bitte Admin-Schlüssel eingeben.",
-      "error"
-    );
-
+  if (!key) {
     return;
   }
 
@@ -533,7 +649,7 @@ async function adminLogin() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          adminKey: adminKey
+          adminKey: key
         })
       }
     );
@@ -543,7 +659,7 @@ async function adminLogin() {
     if (!response.ok || !data.ok) {
 
       showMessage(
-        "loginMessage",
+        "adminMessage",
         data.error || "Anmeldung fehlgeschlagen.",
         "error"
       );
@@ -553,192 +669,69 @@ async function adminLogin() {
 
     document.getElementById("adminKey").value = "";
 
-    showSection("admin");
+    document.getElementById(
+      "adminLogin"
+    ).style.display = "none";
 
-    ladeMitarbeiter();
+    document.getElementById(
+      "adminBereich"
+    ).style.display = "block";
 
-  } catch (error) {
+  } catch {
 
     showMessage(
-      "loginMessage",
-      "Verbindung zum Server fehlgeschlagen.",
+      "adminMessage",
+      "Server nicht erreichbar.",
       "error"
     );
+
   }
 }
 
 
-async function ladeMitarbeiter() {
+/* ========================= */
+/* HILFSFUNKTION */
+/* ========================= */
 
-  const container =
-    document.getElementById("employeeList");
+function showMessage(id, text, type) {
 
-  container.innerHTML =
-    '<div class="empty">Mitarbeiter werden geladen...</div>';
+  const element =
+    document.getElementById(id);
 
-  try {
+  element.textContent = text;
 
-    const response =
-      await fetch("/api/admin/mitarbeiter");
+  element.className =
+    "message show " + type;
 
-    const data =
-      await response.json();
-
-    if (!response.ok || !data.ok) {
-
-      container.innerHTML =
-        '<div class="empty">Nicht angemeldet.</div>';
-
-      return;
-    }
-
-    if (!data.mitarbeiter || data.mitarbeiter.length === 0) {
-
-      container.innerHTML =
-        '<div class="empty">Noch keine Mitarbeiter angelegt.</div>';
-
-      return;
-    }
-
-    container.innerHTML = "";
-
-    data.mitarbeiter.forEach(mitarbeiter => {
-
-      const div =
-        document.createElement("div");
-
-      div.className = "employee";
-
-      div.innerHTML = `
-        <div>
-          <strong>${escapeHtml(mitarbeiter.name)}</strong>
-        </div>
-
-        <div class="employee-status active-status">
-          ${mitarbeiter.aktiv ? "● Aktiv" : "● Deaktiviert"}
-        </div>
-      `;
-
-      container.appendChild(div);
-
-    });
-
-  } catch (error) {
-
-    container.innerHTML =
-      '<div class="empty">Fehler beim Laden.</div>';
-  }
 }
 
 
-async function mitarbeiterAnlegen() {
+/* PIN-Eingabe per Tastatur */
 
-  const name =
-    document.getElementById("mitarbeiterName")
-      .value.trim();
+document.addEventListener(
+  "keydown",
+  function(event) {
 
-  const pin =
-    document.getElementById("mitarbeiterPin")
-      .value.trim();
+    if (
+      document.getElementById("pinScreen").style.display !== "none"
+    ) {
 
-  if (!name) {
+      if (/^\d$/.test(event.key)) {
+        pinTaste(event.key);
+      }
 
-    showMessage(
-      "employeeMessage",
-      "Bitte einen Namen eingeben.",
-      "error"
-    );
-
-    return;
-  }
-
-  if (!/^\d{4}$/.test(pin)) {
-
-    showMessage(
-      "employeeMessage",
-      "Die PIN muss genau 4 Ziffern haben.",
-      "error"
-    );
-
-    return;
-  }
-
-  try {
-
-    const response =
-      await fetch(
-        "/api/admin/mitarbeiter",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            name: name,
-            pin: pin
-          })
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!response.ok || !data.ok) {
-
-      showMessage(
-        "employeeMessage",
-        data.error || "Mitarbeiter konnte nicht angelegt werden.",
-        "error"
-      );
-
-      return;
-    }
-
-    document.getElementById("mitarbeiterName").value = "";
-    document.getElementById("mitarbeiterPin").value = "";
-
-    showMessage(
-      "employeeMessage",
-      "Mitarbeiter wurde erfolgreich angelegt.",
-      "success"
-    );
-
-    ladeMitarbeiter();
-
-  } catch (error) {
-
-    showMessage(
-      "employeeMessage",
-      "Verbindung zum Server fehlgeschlagen.",
-      "error"
-    );
-  }
-}
-
-
-function escapeHtml(value) {
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-document
-  .getElementById("adminKey")
-  .addEventListener(
-    "keydown",
-    function(event) {
+      if (event.key === "Backspace") {
+        pinLoeschen();
+      }
 
       if (event.key === "Enter") {
-        adminLogin();
+        mitarbeiterLogin();
       }
 
     }
-  );
+
+  }
+);
 
 </script>
 
