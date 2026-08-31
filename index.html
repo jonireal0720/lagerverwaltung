@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lagerverwaltung</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #eef3f8;
+      color: #10233f;
+    }
+
+    header {
+      background: #10233f;
+      color: white;
+      padding: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      opacity: 0.8;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .search {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 16px;
+      border: 1px solid #ccd6e0;
+      border-radius: 12px;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .category {
+      border: none;
+      background: white;
+      color: #10233f;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .category.active {
+      background: #1d4ed8;
+      color: white;
+    }
+
+    .articles {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
+    }
+
+    .article {
+      background: white;
+      border-radius: 14px;
+      padding: 18px;
+      cursor: pointer;
+      border-left: 5px solid #15803d;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .article.warning {
+      border-left-color: #b91c1c;
+    }
+
+    .article-icon {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .article h2 {
+      margin: 5px 0;
+      font-size: 19px;
+    }
+
+    .article p {
+      margin: 5px 0;
+      color: #667085;
+    }
+
+    .stock {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 12px;
+    }
+
+    .detail {
+      display: none;
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .back {
+      border: none;
+      background: #eef3f8;
+      padding: 12px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .detail-header {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .big-icon {
+      font-size: 80px;
+      background: #eef3f8;
+      padding: 20px;
+      border-radius: 15px;
+    }
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .package {
+      padding: 18px;
+      background: #f5f7fa;
+      border: 2px solid #d7dee7;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .package.selected {
+      border-color: #1d4ed8;
+      background: #eaf0ff;
+    }
+
+    .package strong {
+      display: block;
+      font-size: 17px;
+    }
+
+    .booking {
+      background: #eef3f8;
+      padding: 20px;
+      border-radius: 14px;
+      margin-top: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+    }
+
+    select,
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px;
+      margin-top: 6px;
+      border: 1px solid #ccd6e0;
+      border-radius: 9px;
+      background: white;
+      font-size: 16px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .out {
+      background: #b91c1c;
+      color: white;
+    }
+
+    .in {
+      background: #15803d;
+      color: white;
+    }
+
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    @media (max-width: 600px) {
+      .buttons {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>📦 Lagerverwaltung</h1>
+  <p>Material schnell und einfach buchen</p>
+</header>
+
+<main>
+
+  <section id="lager">
+
+    <input
+      id="search"
+      class="search"
+      type="text"
+      placeholder="🔎 Artikel oder Artikelnummer suchen..."
+    >
+
+    <div class="categories">
+      <button class="category active" onclick="setCategory('Alle')">Alle</button>
+      <button class="category" onclick="setCategory('Schrauben')">Schrauben</button>
+      <button class="category" onclick="setCategory('Muttern')">Muttern</button>
+      <button class="category" onclick="setCategory('Fittings')">Fittings</button>
+      <button class="category" onclick="setCategory('Rohre')">Rohre</button>
+    </div>
+
+    <div id="articles" class="articles"></div>
+
+  </section>
+
+  <section id="detail" class="detail">
+
+    <button class="back" onclick="backToSearch()">
+      ← Zurück zur Artikelsuche
+    </button>
+
+    <div id="detailContent"></div>
+
+  </section>
+
+</main>
+
+<script>
+
+const articles = [
+
+  {
+    id: 1,
+    name: "M4 Mutter",
+    number: "100045",
+    category: "Muttern",
+    stock: 425,
+    warning: 100,
+    location: "Halle unten · Regal A · Fach 12",
+    icon: "🔩",
+    packages: [
+      ["Einzelstück", 1],
+      ["25er Tüte", 25],
+      ["100er Tüte", 100],
+      ["500er Karton", 500]
+    ]
+  },
+
+  {
+    id: 2,
+    name: "Schraube M6 × 30",
+    number: "100128",
+    category: "Schrauben",
+    stock: 180,
+    warning: 50,
+    location: "Halle unten · Regal B · Fach 04",
+    icon: "🔩",
+    packages: [
+      ["Einzelstück", 1],
+      ["100er Karton", 100],
+      ["200er Karton", 200]
+    ]
+  },
+
+  {
+    id: 3,
+    name: "Muffe 22 mm",
+    number: "200311",
+    category: "Fittings",
+    stock: 38,
+    warning: 25,
+    location: "Rohre · Regal C · Fach 08",
+    icon: "⚙️",
+    packages: [
+      ["Einzelstück", 1],
+      ["25er Tüte", 25]
+    ]
+  },
+
+  {
+    id: 4,
+    name: "Winkel 22 mm",
+    number: "200322",
+    category: "Fittings",
+    stock: 14,
+    warning: 20,
+    location: "Rohre · Regal C · Fach 10",
+    icon: "⚙️",
+    packages: [
+      ["Einzelstück", 1],
+      ["10er Tüte", 10],
+      ["25er Tüte", 25]
+    ]
+  },
+
+  {
+    id: 5,
+    name: "Rohr 22 mm",
+    number: "300022",
+    category: "Rohre",
+    stock: 32,
+    warning: 10,
+    location: "Rohre · Platz 7",
+    icon: "🪠",
+    packages: [
+      ["Einzelstück", 1],
+      ["3 m", 3],
+      ["6 m", 6]
+    ]
+  }
+
+];
+
+let category = "Alle";
+let selectedArticle = null;
+let selectedPackage = null;
+
+function renderArticles() {
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase();
+
+  const container =
+    document.getElementById("articles");
+
+  container.innerHTML = "";
+
+  const filtered =
+    articles.filter(article => {
+
+      const matchesSearch =
+        article.name.toLowerCase().includes(search) ||
+        article.number.toLowerCase().includes(search);
+
+      const matchesCategory =
+        category === "Alle" ||
+        article.category === category;
+
+      return matchesSearch && matchesCategory;
+
+    });
+
+  filtered.forEach(article => {
+
+    const div = document.createElement("div");
+
+    div.className =
+      "article " +
+      (article.stock <= article.warning ? "warning" : "");
+
+    div.innerHTML = `
+
+      <div class="article-icon">
+        ${article.icon}
+      </div>
+
+      <h2>${article.name}</h2>
+
+      <p>Art.-Nr.: ${article.number}</p>
+
+      <p>📍 ${article.location}</p>
+
+      <div class="stock">
+        ${article.stock} Stück
+      </div>
+
+      ${
+        article.stock <= article.warning
+          ? "<p style='color:#b91c1c;font-weight:bold'>⚠️ Nachbestellen</p>"
+          : ""
+      }
+
+    `;
+
+    div.onclick = () =>
+      openArticle(article.id);
+
+    container.appendChild(div);
+
+  });
+
+}
+
+function setCategory(newCategory) {
+
+  category = newCategory;
+
+  document
+    .querySelectorAll(".category")
+    .forEach(button => {
+
+      button.classList.remove("active");
+
+      if (button.textContent === newCategory) {
+        button.classList.add("active");
+      }
+
+    });
+
+  renderArticles();
+
+}
+
+function openArticle(id) {
+
+  selectedArticle =
+    articles.find(article => article.id === id);
+
+  selectedPackage = null;
+
+  document.getElementById("lager").style.display = "none";
+
+  document.getElementById("detail").style.display = "block";
+
+  renderDetail();
+
+}
+
+function renderDetail() {
+
+  const a = selectedArticle;
+
+  const content =
+    document.getElementById("detailContent");
+
+  content.innerHTML = `
+
+    <div class="detail-header">
+
+      <div class="big-icon">
+        ${a.icon}
+      </div>
+
+      <div>
+
+        <h2>${a.name}</h2>
+
+        <p>
+          Artikelnummer: ${a.number}
+        </p>
+
+        <p>
+          📍 ${a.location}
+        </p>
+
+        <h2>
+          Bestand: ${a.stock} Stück
+        </h2>
+
+      </div>
+
+    </div>
+
+    <hr>
+
+    <h3>Verpackung / Entnahmeeinheit</h3>
+
+    <div class="packages">
+
+      ${a.packages.map((pack, index) => `
+
+        <button
+          class="package ${selectedPackage === index ? "selected" : ""}"
+          onclick="selectPackage(${index})"
+        >
+
+          <strong>${pack[0]}</strong>
+
+          ${pack[1]} Stück
+
+        </button>
+
+      `).join("")}
+
+    </div>
+
+    ${
+      selectedPackage !== null
+      ? bookingForm()
+      : "<p>Bitte zuerst eine Verpackung oder Einzelstück auswählen.</p>"
+    }
+
+  `;
+
+}
+
+function selectPackage(index) {
+
+  selectedPackage = index;
+
+  renderDetail();
+
+}
+
+function bookingForm() {
+
+  const a = selectedArticle;
+
+  const unit =
+    a.packages[selectedPackage][1];
+
+  return `
+
+    <div class="booking">
+
+      <h3>
+        ${a.packages[selectedPackage][0]}
+        · ${unit} Stück
+      </h3>
+
+      <div class="form-row">
+
+        <label>
+          Anzahl
+
+          <input
+            id="quantity"
+            type="number"
+            min="1"
+            value="1"
+            oninput="updateTotal()"
+          >
+
+        </label>
+
+        <label>
+          Mitarbeiter
+
+          <select id="employee">
+
+            <option>Max Mustermann</option>
+            <option>Peter Müller</option>
+            <option>Thomas Schneider</option>
+
+          </select>
+
+        </label>
+
+        <label>
+          Baustelle
+
+          <select id="site">
+
+            <option>Müllerstraße 12</option>
+            <option>Hauptstraße 48</option>
+            <option>Industriepark West</option>
+            <option>Schulstraße 7</option>
+
+          </select>
+
+        </label>
+
+      </div>
+
+      <p>
+        Gesamt:
+        <strong id="total">
+          ${unit}
+        </strong>
+        Stück
+      </p>
+
+      <div class="buttons">
+
+        <button
+          class="btn out"
+          onclick="book('out')"
+        >
+          🔴 ENTNEHMEN
+        </button>
+
+        <button
+          class="btn in"
+          onclick="book('in')"
+        >
+          🟢 EINLAGERN
+        </button>
+
+      </div>
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+    </div>
+
+  `;
+
+}
+
+function updateTotal() {
+
+  const quantity =
+    Number(document.getElementById("quantity").value) || 1;
+
+  const unit =
+    selectedArticle.packages[selectedPackage][1];
+
+  document.getElementById("total").textContent =
+    quantity * unit;
+
+}
+
+function book(type) {
+
+  const quantity =
+    Math.max(
+      1,
+      Number(document.getElementById("quantity").value) || 1
+    );
+
+  const unit =
+    selectedArticle.packages[selectedPackage][1];
+
+  const amount =
+    quantity * unit;
+
+  if (
+    type === "out" &&
+    amount > selectedArticle.stock
+  ) {
+
+    document.getElementById("message").textContent =
+      "❌ Nicht genügend Bestand vorhanden.";
+
+    return;
+
+  }
+
+  if (type === "out") {
+
+    selectedArticle.stock -= amount;
+
+  } else {
+
+    selectedArticle.stock += amount;
+
+  }
+
+  document.getElementById("message").textContent =
+    type === "out"
+      ? `✅ ${amount} Stück wurden entnommen.`
+      : `✅ ${amount} Stück wurden eingelagert.`;
+
+  renderDetail();
+
+}
+
+function backToSearch() {
+
+  selectedArticle = null;
+
+  selectedPackage = null;
+
+  document.getElementById("detail").style.display = "none";
+
+  document.getElementById("lager").style.display = "block";
+
+  renderArticles();
+
+}
+
+document
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    renderArticles
+  );
+
+renderArticles();
+
+</script>
+
+</body>
+</html>
