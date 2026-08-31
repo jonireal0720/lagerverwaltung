@@ -1,726 +1,744 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lagerverwaltung</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lagerverwaltung</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #eef3f8;
-      color: #10233f;
-    }
+<style>
+* {
+  box-sizing: border-box;
+}
 
-    header {
-      background: #10233f;
-      color: white;
-      padding: 20px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #eef3f8;
+  color: #10233f;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 24px;
-    }
+header {
+  background: #10233f;
+  color: white;
+  padding: 18px 24px;
+}
 
-    header p {
-      margin: 6px 0 0;
-      opacity: 0.8;
-    }
+.header-inner {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
 
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-    }
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
 
-    .search {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 16px;
-      border: 1px solid #ccd6e0;
-      border-radius: 12px;
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
+.subtitle {
+  margin-top: 5px;
+  opacity: .8;
+}
 
-    .categories {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
+.admin-button {
+  background: white;
+  color: #10233f;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .category {
-      border: none;
-      background: white;
-      color: #10233f;
-      padding: 12px 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
+main {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+}
 
-    .category.active {
-      background: #1d4ed8;
-      color: white;
-    }
+.search {
+  width: 100%;
+  padding: 17px;
+  border: 1px solid #ccd6e0;
+  border-radius: 12px;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
 
-    .articles {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 15px;
-    }
+.categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
 
-    .article {
-      background: white;
-      border-radius: 14px;
-      padding: 18px;
-      cursor: pointer;
-      border-left: 5px solid #15803d;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+.category {
+  border: 0;
+  padding: 12px 18px;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  font-weight: bold;
+}
 
-    .article.warning {
-      border-left-color: #b91c1c;
-    }
+.category.active {
+  background: #2457d6;
+  color: white;
+}
 
-    .article-icon {
-      font-size: 42px;
-      margin-bottom: 10px;
-    }
+.info {
+  background: white;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.06);
+}
 
-    .article h2 {
-      margin: 5px 0;
-      font-size: 19px;
-    }
+.admin-panel {
+  display: none;
+}
 
-    .article p {
-      margin: 5px 0;
-      color: #667085;
-    }
+.admin-panel.show {
+  display: block;
+}
 
-    .stock {
-      font-size: 22px;
-      font-weight: bold;
-      margin-top: 12px;
-    }
+.login-box {
+  max-width: 480px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0,0,0,.08);
+}
 
-    .detail {
-      display: none;
-      background: white;
-      border-radius: 14px;
-      padding: 20px;
-    }
+.login-box h2 {
+  margin-top: 0;
+}
 
-    .back {
-      border: none;
-      background: #eef3f8;
-      padding: 12px 18px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 16px;
+  margin-bottom: 7px;
+}
 
-    .detail-header {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+input,
+select {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccd6e0;
+  border-radius: 9px;
+  font-size: 16px;
+}
 
-    .big-icon {
-      font-size: 80px;
-      background: #eef3f8;
-      padding: 20px;
-      border-radius: 15px;
-    }
+.primary {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  border: 0;
+  border-radius: 10px;
+  background: #2457d6;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .packages {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      margin: 20px 0;
-    }
+.secondary {
+  padding: 11px 16px;
+  border: 1px solid #ccd6e0;
+  border-radius: 9px;
+  background: white;
+  cursor: pointer;
+}
 
-    .package {
-      padding: 18px;
-      background: #f5f7fa;
-      border: 2px solid #d7dee7;
-      border-radius: 12px;
-      cursor: pointer;
-      text-align: left;
-    }
+.message {
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 9px;
+  display: none;
+}
 
-    .package.selected {
-      border-color: #1d4ed8;
-      background: #eaf0ff;
-    }
+.message.show {
+  display: block;
+}
 
-    .package strong {
-      display: block;
-      font-size: 17px;
-    }
+.message.error {
+  background: #ffe5e5;
+  color: #a40000;
+}
 
-    .booking {
-      background: #eef3f8;
-      padding: 20px;
-      border-radius: 14px;
-      margin-top: 20px;
-    }
+.message.success {
+  background: #e4f7e9;
+  color: #126b2d;
+}
 
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  margin: 25px 0;
+}
 
-    label {
-      font-weight: bold;
-    }
+.admin-card {
+  background: white;
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.06);
+}
 
-    select,
-    input {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 13px;
-      margin-top: 6px;
-      border: 1px solid #ccd6e0;
-      border-radius: 9px;
-      background: white;
-      font-size: 16px;
-    }
+.admin-card .icon {
+  font-size: 30px;
+}
 
-    .buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 20px;
-    }
+.admin-card h3 {
+  margin-bottom: 5px;
+}
 
-    .btn {
-      border: none;
-      padding: 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 17px;
-      font-weight: bold;
-    }
+.employee-list {
+  margin-top: 25px;
+}
 
-    .out {
-      background: #b91c1c;
-      color: white;
-    }
+.employee {
+  background: white;
+  border-radius: 12px;
+  padding: 15px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .in {
-      background: #15803d;
-      color: white;
-    }
+.employee-status {
+  font-size: 13px;
+  font-weight: bold;
+}
 
-    .message {
-      margin-top: 15px;
-      font-weight: bold;
-    }
+.active-status {
+  color: #138a3d;
+}
 
-    @media (max-width: 600px) {
-      .buttons {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.empty {
+  padding: 25px;
+  text-align: center;
+  color: #64748b;
+  background: white;
+  border-radius: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.top-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 700px) {
+  header {
+    padding: 15px;
+  }
+
+  main {
+    padding: 15px;
+  }
+
+  .header-inner {
+    align-items: flex-start;
+  }
+
+  .admin-button {
+    padding: 9px 12px;
+  }
+
+  .employee {
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>📦 Lagerverwaltung</h1>
-  <p>Material schnell und einfach buchen</p>
+  <div class="header-inner">
+
+    <div>
+      <div class="logo">📦 Lagerverwaltung</div>
+      <div class="subtitle">Material schnell und einfach buchen</div>
+    </div>
+
+    <button class="admin-button" onclick="openAdmin()">
+      ⚙️ Admin
+    </button>
+
+  </div>
 </header>
 
 <main>
 
-  <section id="lager">
+  <!-- NORMALE LAGERANSICHT -->
+  <section id="lagerAnsicht">
 
     <input
-      id="search"
+      id="suche"
       class="search"
       type="text"
       placeholder="🔎 Artikel oder Artikelnummer suchen..."
     >
 
     <div class="categories">
-      <button class="category active" onclick="setCategory('Alle')">Alle</button>
-      <button class="category" onclick="setCategory('Schrauben')">Schrauben</button>
-      <button class="category" onclick="setCategory('Muttern')">Muttern</button>
-      <button class="category" onclick="setCategory('Fittings')">Fittings</button>
-      <button class="category" onclick="setCategory('Rohre')">Rohre</button>
+      <button class="category active">Alle</button>
+      <button class="category">Schrauben</button>
+      <button class="category">Muttern</button>
+      <button class="category">Fittings</button>
+      <button class="category">Rohre</button>
     </div>
 
-    <div id="articles" class="articles"></div>
+    <div class="info">
+      <h2>📦 Lagerverwaltung</h2>
+      <p>
+        Die eigentliche Artikelverwaltung bauen wir als nächsten Schritt
+        direkt auf diese Oberfläche.
+      </p>
+      <p>
+        Danach können Mitarbeiter Artikel suchen, einzelne Stücke oder
+        komplette Verpackungen entnehmen und Zugänge buchen.
+      </p>
+    </div>
 
   </section>
 
-  <section id="detail" class="detail">
 
-    <button class="back" onclick="backToSearch()">
-      ← Zurück zur Artikelsuche
-    </button>
+  <!-- ADMIN LOGIN -->
+  <section id="adminLogin" class="admin-panel">
 
-    <div id="detailContent"></div>
+    <div class="login-box">
+
+      <h2>🔐 Admin-Anmeldung</h2>
+
+      <p>
+        Nur der Administrator kann die Stammdaten des Lagers verändern.
+      </p>
+
+      <label for="adminKey">Admin-Schlüssel</label>
+
+      <input
+        id="adminKey"
+        type="password"
+        autocomplete="off"
+        placeholder="Admin-Schlüssel eingeben"
+      >
+
+      <button class="primary" onclick="adminLogin()">
+        🔓 Anmelden
+      </button>
+
+      <div id="loginMessage" class="message"></div>
+
+      <button
+        class="secondary"
+        style="margin-top:12px;width:100%;"
+        onclick="closeAdmin()"
+      >
+        Zurück zum Lager
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADMIN BEREICH -->
+  <section id="adminBereich" class="admin-panel">
+
+    <div class="top-actions">
+
+      <div>
+        <h2 style="margin-bottom:5px;">⚙️ Admin-Bereich</h2>
+        <div style="color:#64748b;">
+          Lagerverwaltung konfigurieren
+        </div>
+      </div>
+
+      <button class="secondary" onclick="closeAdmin()">
+        ← Lager
+      </button>
+
+    </div>
+
+
+    <div class="admin-grid">
+
+      <div class="admin-card">
+        <div class="icon">👷</div>
+        <h3>Mitarbeiter</h3>
+        <p>Mitarbeiter und 4-stellige PINs verwalten.</p>
+      </div>
+
+      <div class="admin-card">
+        <div class="icon">📦</div>
+        <h3>Artikel</h3>
+        <p>Artikel, Bestände und Verpackungen verwalten.</p>
+      </div>
+
+      <div class="admin-card">
+        <div class="icon">📍</div>
+        <h3>Lagerorte</h3>
+        <p>Halle, Garage und Lagerplätze verwalten.</p>
+      </div>
+
+      <div class="admin-card">
+        <div class="icon">🏗️</div>
+        <h3>Baustellen</h3>
+        <p>Baustellen für die Materialentnahme verwalten.</p>
+      </div>
+
+    </div>
+
+
+    <!-- MITARBEITER -->
+    <div class="info">
+
+      <h2>👷 Mitarbeiter</h2>
+
+      <p>
+        Hier kannst du später alle Mitarbeiter anlegen.
+      </p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:15px;">
+
+        <div>
+          <label for="mitarbeiterName">Name</label>
+
+          <input
+            id="mitarbeiterName"
+            type="text"
+            placeholder="z. B. Max Mustermann"
+          >
+        </div>
+
+        <div>
+          <label for="mitarbeiterPin">4-stellige PIN</label>
+
+          <input
+            id="mitarbeiterPin"
+            type="password"
+            inputmode="numeric"
+            maxlength="4"
+            placeholder="••••"
+          >
+        </div>
+
+      </div>
+
+      <button class="primary" onclick="mitarbeiterAnlegen()">
+        + Mitarbeiter anlegen
+      </button>
+
+      <div id="employeeMessage" class="message"></div>
+
+    </div>
+
+
+    <div class="employee-list">
+
+      <h2>Vorhandene Mitarbeiter</h2>
+
+      <div id="employeeList">
+        <div class="empty">
+          Mitarbeiter werden geladen...
+        </div>
+      </div>
+
+    </div>
 
   </section>
 
 </main>
 
+
 <script>
 
-const articles = [
+function showSection(id) {
 
-  {
-    id: 1,
-    name: "M4 Mutter",
-    number: "100045",
-    category: "Muttern",
-    stock: 425,
-    warning: 100,
-    location: "Halle unten · Regal A · Fach 12",
-    icon: "🔩",
-    packages: [
-      ["Einzelstück", 1],
-      ["25er Tüte", 25],
-      ["100er Tüte", 100],
-      ["500er Karton", 500]
-    ]
-  },
+  document.getElementById("lagerAnsicht").classList.add("hidden");
+  document.getElementById("adminLogin").classList.remove("show");
+  document.getElementById("adminBereich").classList.remove("show");
 
-  {
-    id: 2,
-    name: "Schraube M6 × 30",
-    number: "100128",
-    category: "Schrauben",
-    stock: 180,
-    warning: 50,
-    location: "Halle unten · Regal B · Fach 04",
-    icon: "🔩",
-    packages: [
-      ["Einzelstück", 1],
-      ["100er Karton", 100],
-      ["200er Karton", 200]
-    ]
-  },
-
-  {
-    id: 3,
-    name: "Muffe 22 mm",
-    number: "200311",
-    category: "Fittings",
-    stock: 38,
-    warning: 25,
-    location: "Rohre · Regal C · Fach 08",
-    icon: "⚙️",
-    packages: [
-      ["Einzelstück", 1],
-      ["25er Tüte", 25]
-    ]
-  },
-
-  {
-    id: 4,
-    name: "Winkel 22 mm",
-    number: "200322",
-    category: "Fittings",
-    stock: 14,
-    warning: 20,
-    location: "Rohre · Regal C · Fach 10",
-    icon: "⚙️",
-    packages: [
-      ["Einzelstück", 1],
-      ["10er Tüte", 10],
-      ["25er Tüte", 25]
-    ]
-  },
-
-  {
-    id: 5,
-    name: "Rohr 22 mm",
-    number: "300022",
-    category: "Rohre",
-    stock: 32,
-    warning: 10,
-    location: "Rohre · Platz 7",
-    icon: "🪠",
-    packages: [
-      ["Einzelstück", 1],
-      ["3 m", 3],
-      ["6 m", 6]
-    ]
+  if (id === "lager") {
+    document.getElementById("lagerAnsicht").classList.remove("hidden");
   }
 
-];
+  if (id === "login") {
+    document.getElementById("adminLogin").classList.add("show");
+  }
 
-let category = "Alle";
-let selectedArticle = null;
-let selectedPackage = null;
-
-function renderArticles() {
-
-  const search =
-    document
-      .getElementById("search")
-      .value
-      .toLowerCase();
-
-  const container =
-    document.getElementById("articles");
-
-  container.innerHTML = "";
-
-  const filtered =
-    articles.filter(article => {
-
-      const matchesSearch =
-        article.name.toLowerCase().includes(search) ||
-        article.number.toLowerCase().includes(search);
-
-      const matchesCategory =
-        category === "Alle" ||
-        article.category === category;
-
-      return matchesSearch && matchesCategory;
-
-    });
-
-  filtered.forEach(article => {
-
-    const div = document.createElement("div");
-
-    div.className =
-      "article " +
-      (article.stock <= article.warning ? "warning" : "");
-
-    div.innerHTML = `
-
-      <div class="article-icon">
-        ${article.icon}
-      </div>
-
-      <h2>${article.name}</h2>
-
-      <p>Art.-Nr.: ${article.number}</p>
-
-      <p>📍 ${article.location}</p>
-
-      <div class="stock">
-        ${article.stock} Stück
-      </div>
-
-      ${
-        article.stock <= article.warning
-          ? "<p style='color:#b91c1c;font-weight:bold'>⚠️ Nachbestellen</p>"
-          : ""
-      }
-
-    `;
-
-    div.onclick = () =>
-      openArticle(article.id);
-
-    container.appendChild(div);
-
-  });
-
+  if (id === "admin") {
+    document.getElementById("adminBereich").classList.add("show");
+  }
 }
 
-function setCategory(newCategory) {
 
-  category = newCategory;
+function openAdmin() {
+  showSection("login");
 
-  document
-    .querySelectorAll(".category")
-    .forEach(button => {
-
-      button.classList.remove("active");
-
-      if (button.textContent === newCategory) {
-        button.classList.add("active");
-      }
-
-    });
-
-  renderArticles();
-
+  document.getElementById("adminKey").focus();
 }
 
-function openArticle(id) {
 
-  selectedArticle =
-    articles.find(article => article.id === id);
-
-  selectedPackage = null;
-
-  document.getElementById("lager").style.display = "none";
-
-  document.getElementById("detail").style.display = "block";
-
-  renderDetail();
-
+function closeAdmin() {
+  showSection("lager");
 }
 
-function renderDetail() {
 
-  const a = selectedArticle;
+function showMessage(elementId, text, type) {
 
-  const content =
-    document.getElementById("detailContent");
+  const element = document.getElementById(elementId);
 
-  content.innerHTML = `
-
-    <div class="detail-header">
-
-      <div class="big-icon">
-        ${a.icon}
-      </div>
-
-      <div>
-
-        <h2>${a.name}</h2>
-
-        <p>
-          Artikelnummer: ${a.number}
-        </p>
-
-        <p>
-          📍 ${a.location}
-        </p>
-
-        <h2>
-          Bestand: ${a.stock} Stück
-        </h2>
-
-      </div>
-
-    </div>
-
-    <hr>
-
-    <h3>Verpackung / Entnahmeeinheit</h3>
-
-    <div class="packages">
-
-      ${a.packages.map((pack, index) => `
-
-        <button
-          class="package ${selectedPackage === index ? "selected" : ""}"
-          onclick="selectPackage(${index})"
-        >
-
-          <strong>${pack[0]}</strong>
-
-          ${pack[1]} Stück
-
-        </button>
-
-      `).join("")}
-
-    </div>
-
-    ${
-      selectedPackage !== null
-      ? bookingForm()
-      : "<p>Bitte zuerst eine Verpackung oder Einzelstück auswählen.</p>"
-    }
-
-  `;
-
+  element.textContent = text;
+  element.className = "message show " + type;
 }
 
-function selectPackage(index) {
 
-  selectedPackage = index;
+async function adminLogin() {
 
-  renderDetail();
+  const adminKey =
+    document.getElementById("adminKey").value.trim();
 
-}
+  if (!adminKey) {
 
-function bookingForm() {
-
-  const a = selectedArticle;
-
-  const unit =
-    a.packages[selectedPackage][1];
-
-  return `
-
-    <div class="booking">
-
-      <h3>
-        ${a.packages[selectedPackage][0]}
-        · ${unit} Stück
-      </h3>
-
-      <div class="form-row">
-
-        <label>
-          Anzahl
-
-          <input
-            id="quantity"
-            type="number"
-            min="1"
-            value="1"
-            oninput="updateTotal()"
-          >
-
-        </label>
-
-        <label>
-          Mitarbeiter
-
-          <select id="employee">
-
-            <option>Max Mustermann</option>
-            <option>Peter Müller</option>
-            <option>Thomas Schneider</option>
-
-          </select>
-
-        </label>
-
-        <label>
-          Baustelle
-
-          <select id="site">
-
-            <option>Müllerstraße 12</option>
-            <option>Hauptstraße 48</option>
-            <option>Industriepark West</option>
-            <option>Schulstraße 7</option>
-
-          </select>
-
-        </label>
-
-      </div>
-
-      <p>
-        Gesamt:
-        <strong id="total">
-          ${unit}
-        </strong>
-        Stück
-      </p>
-
-      <div class="buttons">
-
-        <button
-          class="btn out"
-          onclick="book('out')"
-        >
-          🔴 ENTNEHMEN
-        </button>
-
-        <button
-          class="btn in"
-          onclick="book('in')"
-        >
-          🟢 EINLAGERN
-        </button>
-
-      </div>
-
-      <div
-        id="message"
-        class="message"
-      ></div>
-
-    </div>
-
-  `;
-
-}
-
-function updateTotal() {
-
-  const quantity =
-    Number(document.getElementById("quantity").value) || 1;
-
-  const unit =
-    selectedArticle.packages[selectedPackage][1];
-
-  document.getElementById("total").textContent =
-    quantity * unit;
-
-}
-
-function book(type) {
-
-  const quantity =
-    Math.max(
-      1,
-      Number(document.getElementById("quantity").value) || 1
+    showMessage(
+      "loginMessage",
+      "Bitte Admin-Schlüssel eingeben.",
+      "error"
     );
 
-  const unit =
-    selectedArticle.packages[selectedPackage][1];
+    return;
+  }
 
-  const amount =
-    quantity * unit;
+  try {
 
-  if (
-    type === "out" &&
-    amount > selectedArticle.stock
-  ) {
+    const response = await fetch(
+      "/api/admin/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          adminKey: adminKey
+        })
+      }
+    );
 
-    document.getElementById("message").textContent =
-      "❌ Nicht genügend Bestand vorhanden.";
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+
+      showMessage(
+        "loginMessage",
+        data.error || "Anmeldung fehlgeschlagen.",
+        "error"
+      );
+
+      return;
+    }
+
+    document.getElementById("adminKey").value = "";
+
+    showSection("admin");
+
+    ladeMitarbeiter();
+
+  } catch (error) {
+
+    showMessage(
+      "loginMessage",
+      "Verbindung zum Server fehlgeschlagen.",
+      "error"
+    );
+  }
+}
+
+
+async function ladeMitarbeiter() {
+
+  const container =
+    document.getElementById("employeeList");
+
+  container.innerHTML =
+    '<div class="empty">Mitarbeiter werden geladen...</div>';
+
+  try {
+
+    const response =
+      await fetch("/api/admin/mitarbeiter");
+
+    const data =
+      await response.json();
+
+    if (!response.ok || !data.ok) {
+
+      container.innerHTML =
+        '<div class="empty">Nicht angemeldet.</div>';
+
+      return;
+    }
+
+    if (!data.mitarbeiter || data.mitarbeiter.length === 0) {
+
+      container.innerHTML =
+        '<div class="empty">Noch keine Mitarbeiter angelegt.</div>';
+
+      return;
+    }
+
+    container.innerHTML = "";
+
+    data.mitarbeiter.forEach(mitarbeiter => {
+
+      const div =
+        document.createElement("div");
+
+      div.className = "employee";
+
+      div.innerHTML = `
+        <div>
+          <strong>${escapeHtml(mitarbeiter.name)}</strong>
+        </div>
+
+        <div class="employee-status active-status">
+          ${mitarbeiter.aktiv ? "● Aktiv" : "● Deaktiviert"}
+        </div>
+      `;
+
+      container.appendChild(div);
+
+    });
+
+  } catch (error) {
+
+    container.innerHTML =
+      '<div class="empty">Fehler beim Laden.</div>';
+  }
+}
+
+
+async function mitarbeiterAnlegen() {
+
+  const name =
+    document.getElementById("mitarbeiterName")
+      .value.trim();
+
+  const pin =
+    document.getElementById("mitarbeiterPin")
+      .value.trim();
+
+  if (!name) {
+
+    showMessage(
+      "employeeMessage",
+      "Bitte einen Namen eingeben.",
+      "error"
+    );
 
     return;
-
   }
 
-  if (type === "out") {
+  if (!/^\d{4}$/.test(pin)) {
 
-    selectedArticle.stock -= amount;
+    showMessage(
+      "employeeMessage",
+      "Die PIN muss genau 4 Ziffern haben.",
+      "error"
+    );
 
-  } else {
-
-    selectedArticle.stock += amount;
-
+    return;
   }
 
-  document.getElementById("message").textContent =
-    type === "out"
-      ? `✅ ${amount} Stück wurden entnommen.`
-      : `✅ ${amount} Stück wurden eingelagert.`;
+  try {
 
-  renderDetail();
+    const response =
+      await fetch(
+        "/api/admin/mitarbeiter",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            pin: pin
+          })
+        }
+      );
 
+    const data =
+      await response.json();
+
+    if (!response.ok || !data.ok) {
+
+      showMessage(
+        "employeeMessage",
+        data.error || "Mitarbeiter konnte nicht angelegt werden.",
+        "error"
+      );
+
+      return;
+    }
+
+    document.getElementById("mitarbeiterName").value = "";
+    document.getElementById("mitarbeiterPin").value = "";
+
+    showMessage(
+      "employeeMessage",
+      "Mitarbeiter wurde erfolgreich angelegt.",
+      "success"
+    );
+
+    ladeMitarbeiter();
+
+  } catch (error) {
+
+    showMessage(
+      "employeeMessage",
+      "Verbindung zum Server fehlgeschlagen.",
+      "error"
+    );
+  }
 }
 
-function backToSearch() {
 
-  selectedArticle = null;
+function escapeHtml(value) {
 
-  selectedPackage = null;
-
-  document.getElementById("detail").style.display = "none";
-
-  document.getElementById("lager").style.display = "block";
-
-  renderArticles();
-
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
+
 
 document
-  .getElementById("search")
+  .getElementById("adminKey")
   .addEventListener(
-    "input",
-    renderArticles
-  );
+    "keydown",
+    function(event) {
 
-renderArticles();
+      if (event.key === "Enter") {
+        adminLogin();
+      }
+
+    }
+  );
 
 </script>
 
