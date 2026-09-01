@@ -616,7 +616,7 @@ async function ladeArtikel() {
       div.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08)";
 
      div.innerHTML = `
-  <div onclick="artikelEntnehmen(${artikel.id})" style="cursor:pointer;">
+  <div style="cursor:pointer;">
     <div style="font-size:20px; font-weight:bold; margin-bottom:8px;">
       📦 ${artikel.name}
     </div>
@@ -642,7 +642,8 @@ async function ladeArtikel() {
     </div>
   </div>
 `;
-      liste.appendChild(div);
+      div.onclick = () => artikelEntnehmen(artikel.id);
+liste.appendChild(div);
     });
 
   } catch (error) {
