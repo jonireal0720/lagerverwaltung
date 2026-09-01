@@ -615,13 +615,15 @@ async function ladeArtikel() {
       div.style.borderRadius = "10px";
       div.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08)";
 
-      div.innerHTML = `
-        <strong>${artikel.artikelnummer}</strong><br>
-        ${artikel.name}<br>
-        <small>Kategorie: ${artikel.kategorie || "-"}</small><br>
-        <strong>Bestand: ${artikel.bestand}</strong>
-      `;
-
+     div.innerHTML = `
+  <strong>${artikel.artikelnummer}</strong><br>
+  ${artikel.name}<br>
+  <small>Kategorie: ${artikel.kategorie || "-"}</small><br>
+  <strong>Bestand: ${artikel.bestand}</strong><br><br>
+  <button onclick="artikelEntnehmen(${artikel.id})">
+    📦 Material entnehmen
+  </button>
+`;
       liste.appendChild(div);
     });
 
