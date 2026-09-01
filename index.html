@@ -642,7 +642,7 @@ async function ladeArtikel() {
     </div>
   </div>
 `;
-      div.onclick = () => artikelEntnehmen(artikel.id);
+div.addEventListener("click", () => artikelEntnehmen(artikel.id));
 liste.appendChild(div);
     });
 
