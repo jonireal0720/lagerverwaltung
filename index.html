@@ -645,7 +645,8 @@ div.innerHTML = `
 
   </button>
 `;
-liste.appendChild(div);
+div.querySelector("button").addEventListener("click", () => alert("Klick funktioniert!"));
+      liste.appendChild(div);
     });
 
   } catch (error) {
