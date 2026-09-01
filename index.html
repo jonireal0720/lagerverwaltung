@@ -631,7 +631,22 @@ async function ladeArtikel() {
     liste.innerHTML = "<p>Server nicht erreichbar.</p>";
   }
 }
+async function artikelEntnehmen(artikelId) {
+  const menge = prompt("Wie viele Stück möchtest du entnehmen?");
 
+  if (menge === null) {
+    return;
+  }
+
+  const anzahl = Number(menge);
+
+  if (!Number.isInteger(anzahl) || anzahl <= 0) {
+    alert("Bitte eine gültige Menge eingeben.");
+    return;
+  }
+
+  alert("Entnahme wird vorbereitet: " + anzahl + " Stück.");
+}
 function abmelden() {
 
   document.getElementById(
