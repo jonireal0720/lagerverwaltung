@@ -565,7 +565,9 @@ async function mitarbeiterLogin() {
     document.getElementById(
       "lagerBereich"
     ).style.display = "block";
-
+    
+await ladeArtikel();
+    
     document.getElementById(
       "pinMessage"
     ).className = "message";
@@ -583,7 +585,50 @@ async function mitarbeiterLogin() {
 
   }
 }
+async function ladeArtikel() {
+  const liste = document.getElementById("artikelListe");
 
+  liste.innerHTML = "<p>Artikel werden geladen...</p>";
+
+  try {
+    const response = await fetch("/api/artikel");
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      liste.innerHTML = "<p>Artikel konnten nicht geladen werden.</p>";
+      return;
+    }
+
+    if (!data.artikel || data.artikel.length === 0) {
+      liste.innerHTML = "<p>Noch keine Artikel vorhanden.</p>";
+      return;
+    }
+
+    liste.innerHTML = "";
+
+    data.artikel.forEach(artikel => {
+      const div = document.createElement("div");
+
+      div.style.background = "white";
+      div.style.padding = "15px";
+      div.style.marginBottom = "10px";
+      div.style.borderRadius = "10px";
+      div.style.boxShadow = "0 2px 8px rgba(0,0,0,0.08)";
+
+      div.innerHTML = `
+        <strong>${artikel.artikelnummer}</strong><br>
+        ${artikel.name}<br>
+        <small>Kategorie: ${artikel.kategorie || "-"}</small><br>
+        <strong>Bestand: ${artikel.bestand}</strong>
+      `;
+
+      liste.appendChild(div);
+    });
+
+  } catch (error) {
+    liste.innerHTML = "<p>Server nicht erreichbar.</p>";
+  }
+}
 
 function abmelden() {
 
