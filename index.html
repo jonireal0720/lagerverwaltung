@@ -669,7 +669,7 @@ div.innerHTML = `
   }
 }
 
-  async function adminArtikelLaden() {
+async function adminArtikelLaden() {
   const liste = document.getElementById("adminArtikelListe");
 
   liste.innerHTML = "<p>Artikel werden geladen...</p>";
@@ -694,15 +694,84 @@ div.innerHTML = `
       const div = document.createElement("div");
 
       div.style.background = "#f7f9fc";
-      div.style.padding = "12px";
-      div.style.marginBottom = "10px";
-      div.style.borderRadius = "8px";
+      div.style.padding = "15px";
+      div.style.marginBottom = "15px";
+      div.style.borderRadius = "10px";
 
       div.innerHTML = `
-        <strong>📦 ${artikel.name}</strong><br>
-        Artikelnummer: ${artikel.artikelnummer}<br>
-        Bestand: ${artikel.bestand} Stück<br>
-        📍 ${artikel.lagerbereich || "-"} → ${artikel.lagerplatz || "-"}
+        <h3 style="margin-top:0;">📦 Artikel bearbeiten</h3>
+
+        <label>Artikelnummer</label>
+        <input
+          id="artikelnummer-${artikel.id}"
+          type="text"
+          value="${artikel.artikelnummer || ""}"
+          style="width:100%;padding:10px;margin:5px 0 12px;"
+        >
+
+        <label>Name</label>
+        <input
+          id="name-${artikel.id}"
+          type="text"
+          value="${artikel.name || ""}"
+          style="width:100%;padding:10px;margin:5px 0 12px;"
+        >
+
+        <label>Kategorie</label>
+        <input
+          id="kategorie-${artikel.id}"
+          type="text"
+          value="${artikel.kategorie || ""}"
+          style="width:100%;padding:10px;margin:5px 0 12px;"
+        >
+
+        <label>Bestand</label>
+        <input
+          id="bestand-${artikel.id}"
+          type="number"
+          min="0"
+          value="${artikel.bestand || 0}"
+          style="width:100%;padding:10px;margin:5px 0 12px;"
+        >
+
+        <label>Warnbestand</label>
+        <input
+          id="warnbestand-${artikel.id}"
+          type="number"
+          min="0"
+          value="${artikel.warnbestand || 0}"
+          style="width:100%;padding:10px;margin:5px 0 12px;"
+        >
+
+        <label>Lagerplatz-ID</label>
+        <input
+          id="lagerplatz-${artikel.id}"
+          type="number"
+          value="${artikel.lagerplatz_id || ""}"
+          style="width:100%;padding:10px;margin:5px 0 12px;"
+        >
+
+        <div style="margin:10px 0;">
+          📍 Aktuell:
+          ${artikel.lagerbereich || "-"} → ${artikel.lagerplatz || "-"}
+        </div>
+
+        <div style="margin:10px 0;">
+          📦 Verpackungen:
+          ${
+            (artikel.verpackungen || [])
+              .map(v => `${v.name} (${v.einheiten} Stück)`)
+              .join(", ") || "Keine"
+          }
+        </div>
+
+        <button
+          type="button"
+          class="primary"
+          onclick="artikelSpeichern(${artikel.id})"
+        >
+          💾 Artikel speichern
+        </button>
       `;
 
       liste.appendChild(div);
@@ -710,6 +779,41 @@ div.innerHTML = `
 
   } catch (error) {
     liste.innerHTML = "<p>Server nicht erreichbar.</p>";
+  }
+}
+
+async function artikelSpeichern(artikelId) {
+  const daten = {
+    id: artikelId,
+    artikelnummer: document.getElementById(`artikelnummer-${artikelId}`).value,
+    name: document.getElementById(`name-${artikelId}`).value,
+    kategorie: document.getElementById(`kategorie-${artikelId}`).value,
+    bestand: document.getElementById(`bestand-${artikelId}`).value,
+    warnbestand: document.getElementById(`warnbestand-${artikelId}`).value,
+    lagerplatz_id: document.getElementById(`lagerplatz-${artikelId}`).value
+  };
+
+  try {
+    const response = await fetch("/api/admin/artikel", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(daten)
+    });
+
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      alert(data.error || "Artikel konnte nicht gespeichert werden.");
+      return;
+    }
+
+    alert("Artikel wurde gespeichert.");
+    await adminArtikelLaden();
+
+  } catch (error) {
+    alert("Server nicht erreichbar.");
   }
 }
   
