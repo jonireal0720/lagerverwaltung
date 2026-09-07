@@ -367,7 +367,11 @@ main {
 
 <div class="info">
 
-  <h2>📦 Lager</h2>
+<h2>📦 Materialien</h2>
+  
+  <p style="margin-top:0; color:#666;">
+  Material auswählen, um eine Entnahme zu buchen.
+</p>
 
   <div id="artikelListe">
     <p>Artikel werden geladen...</p>
@@ -634,6 +638,11 @@ div.innerHTML = `
     <div style="margin-bottom:6px;">
       Kategorie: ${artikel.kategorie || "-"}
     </div>
+
+    <div style="margin-bottom:6px;">
+  📦 Verpackungen:
+  ${(artikel.verpackungen || []).map(v => v.name + " (" + v.einheiten + " Stück)").join(", ") || "-"}
+</div>
 
     <div style="font-size:18px; font-weight:bold;">
       Bestand: ${artikel.bestand} Stück
