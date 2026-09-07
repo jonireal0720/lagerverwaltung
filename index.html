@@ -759,7 +759,7 @@ async function adminArtikelLaden() {
 <div style="margin:10px 0;">
   <strong>📦 Verpackungen:</strong>
 
-  <div style="margin-top:8px;">
+ <div id="verpackungen-${artikel.id}" style="margin-top:8px;">
     ${(artikel.verpackungen || []).map((v, index) => `
       <div style="display:flex; gap:8px; margin-bottom:8px;">
         <input
@@ -843,6 +843,39 @@ async function artikelSpeichern(artikelId) {
     alert("Server nicht erreichbar.");
   }
 }
+  
+function neueVerpackung(artikelId) {
+  const container = document.getElementById("verpackungen-" + artikelId);
+
+  if (!container) {
+    alert("Verpackungsbereich nicht gefunden.");
+    return;
+  }
+
+  const zeile = document.createElement("div");
+
+  zeile.style.display = "flex";
+  zeile.style.gap = "8px";
+  zeile.style.marginBottom = "8px";
+
+  zeile.innerHTML = `
+    <input
+      type="text"
+      placeholder="Name"
+      style="flex:1; padding:10px;"
+    >
+
+    <input
+      type="number"
+      min="1"
+      placeholder="Stück"
+      style="width:120px; padding:10px;"
+    >
+  `;
+
+  container.appendChild(zeile);
+}
+
   
 async function artikelEntnehmen(artikelId) {
   const menge = prompt("Wie viele Stück möchtest du entnehmen?");
