@@ -82,15 +82,16 @@ export async function onRequestPost(context) {
 
     const body = await context.request.json();
 
-    const {
-      id,
-      artikelnummer,
-      name,
-      kategorie,
-      bestand,
-      warnbestand,
-      lagerplatz_id
-    } = body;
+   const {
+  id,
+  artikelnummer,
+  name,
+  kategorie,
+  bestand,
+  warnbestand,
+  lagerplatz_id,
+  verpackungen
+} = body;
 
     if (!id || !artikelnummer || !name) {
       return new Response(
