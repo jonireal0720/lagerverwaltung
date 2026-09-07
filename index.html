@@ -447,11 +447,18 @@ main {
       <p>Mitarbeiter und PINs verwalten.</p>
     </div>
 
-    <div class="admin-card">
-      <h3>📦 Artikel</h3>
-      <p>Artikel und Bestände verwalten.</p>
-    </div>
+<div class="admin-card">
+  <h3>📦 Artikel</h3>
+  <p>Artikel und Bestände verwalten.</p>
 
+  <div style="margin-top:15px;">
+    <button class="secondary" type="button" onclick="adminArtikelLaden()">
+      Artikel anzeigen
+    </button>
+  </div>
+
+  <div id="adminArtikelListe" style="margin-top:15px;"></div>
+</div>
     <div class="admin-card">
       <h3>📍 Lagerorte</h3>
       <p>Halle, Garage und Lagerplätze.</p>
@@ -661,6 +668,51 @@ div.innerHTML = `
     liste.innerHTML = "<p>Server nicht erreichbar.</p>";
   }
 }
+
+  async function adminArtikelLaden() {
+  const liste = document.getElementById("adminArtikelListe");
+
+  liste.innerHTML = "<p>Artikel werden geladen...</p>";
+
+  try {
+    const response = await fetch("/api/artikel");
+    const data = await response.json();
+
+    if (!response.ok || !data.ok) {
+      liste.innerHTML = "<p>Artikel konnten nicht geladen werden.</p>";
+      return;
+    }
+
+    if (!data.artikel || data.artikel.length === 0) {
+      liste.innerHTML = "<p>Noch keine Artikel vorhanden.</p>";
+      return;
+    }
+
+    liste.innerHTML = "";
+
+    data.artikel.forEach(artikel => {
+      const div = document.createElement("div");
+
+      div.style.background = "#f7f9fc";
+      div.style.padding = "12px";
+      div.style.marginBottom = "10px";
+      div.style.borderRadius = "8px";
+
+      div.innerHTML = `
+        <strong>📦 ${artikel.name}</strong><br>
+        Artikelnummer: ${artikel.artikelnummer}<br>
+        Bestand: ${artikel.bestand} Stück<br>
+        📍 ${artikel.lagerbereich || "-"} → ${artikel.lagerplatz || "-"}
+      `;
+
+      liste.appendChild(div);
+    });
+
+  } catch (error) {
+    liste.innerHTML = "<p>Server nicht erreichbar.</p>";
+  }
+}
+  
 async function artikelEntnehmen(artikelId) {
   const menge = prompt("Wie viele Stück möchtest du entnehmen?");
 
