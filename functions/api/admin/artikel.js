@@ -108,7 +108,7 @@ export async function onRequestPost(context) {
       );
     }
 
-    await context.env.DB
+     await context.env.DB
       .prepare(`
         UPDATE artikel
         SET
@@ -130,6 +130,34 @@ export async function onRequestPost(context) {
         lagerplatz_id || null,
         id
       )
+      .run();
+
+    if (Array.isArray(verpackungen)) {
+      await context.env.DB
+        .prepare("DELETE FROM verpackungen WHERE artikel_id = ?")
+        .bind(id)
+        .run();
+
+      for (const verpackung of verpackungen) {
+        if (!verpackung.name || !verpackung.einheiten) {
+          continue;
+        }
+
+        await context.env.DB
+          .prepare(`
+            INSERT INTO verpackungen
+              (artikel_id, name, einheiten, ist_standard, aktiv)
+            VALUES (?, ?, ?, ?, 1)
+          `)
+          .bind(
+            id,
+            verpackung.name,
+            Number(verpackung.einheiten),
+            Number(verpackung.ist_standard) || 0
+          )
+          .run();
+      }
+    }
       .run();
 
     return new Response(
