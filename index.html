@@ -160,8 +160,6 @@ main {
     gap: 10px;
     flex-wrap: wrap;
     margin-bottom: 24px;
-    position: relative;
-    z-index: 9999;
 }
 
 .category {
@@ -360,7 +358,7 @@ main {
   <div class="categories">
 
     <button class="category active">Alle</button>
-<button class="category" onclick="alert('Schrauben funktioniert!')">Schrauben</button>
+<button class="category">Schrauben</button>
     <button class="category">Muttern</button>
     <button class="category">Fittings</button>
     <button class="category">Rohre</button>
@@ -647,7 +645,6 @@ div.innerHTML = `
 
   </button>
 `;
-div.querySelector("button").addEventListener("click", () => alert("Klick funktioniert!"));
       liste.appendChild(div);
     });
 
