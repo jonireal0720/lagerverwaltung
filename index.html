@@ -756,15 +756,42 @@ async function adminArtikelLaden() {
           ${artikel.lagerbereich || "-"} → ${artikel.lagerplatz || "-"}
         </div>
 
-        <div style="margin:10px 0;">
-          📦 Verpackungen:
-          ${
-            (artikel.verpackungen || [])
-              .map(v => `${v.name} (${v.einheiten} Stück)`)
-              .join(", ") || "Keine"
-          }
-        </div>
+<div style="margin:10px 0;">
+  <strong>📦 Verpackungen:</strong>
 
+  <div style="margin-top:8px;">
+    ${(artikel.verpackungen || []).map((v, index) => `
+      <div style="display:flex; gap:8px; margin-bottom:8px;">
+        <input
+          type="text"
+          id="verpackung-name-${artikel.id}-${index}"
+          value="${v.name || ""}"
+          placeholder="Name"
+          style="flex:1; padding:10px;"
+        >
+
+        <input
+          type="number"
+          id="verpackung-menge-${artikel.id}-${index}"
+          value="${v.einheiten || ""}"
+          min="1"
+          placeholder="Stück"
+          style="width:120px; padding:10px;"
+        >
+      </div>
+    `).join("") || "<p>Keine Verpackungen vorhanden.</p>"}
+  </div>
+</div>
+
+<div style="margin-top:10px;">
+  <button
+    type="button"
+    class="secondary"
+    onclick="neueVerpackung(${artikel.id})"
+  >
+    ➕ Verpackung hinzufügen
+  </button>
+</div>
         <button
           type="button"
           class="primary"
