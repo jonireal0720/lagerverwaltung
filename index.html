@@ -395,11 +395,19 @@ main {
 
     <label>Admin-Schlüssel</label>
 
+<div style="position:relative;">
     <input
-      id="adminKey"
-      type="password"
-      style="width:100%;padding:13px;border:1px solid #ccd6e0;border-radius:9px;"
+        id="adminKey"
+        type="password"
+        style="width:100%;padding:13px;padding-right:45px;border:1px solid #ccd6e0;border-radius:9px;"
     >
+    <button
+        type="button"
+        onclick="adminKeyAnzeigen()"
+        style="position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;cursor:pointer;font-size:20px;padding:4px;"
+        aria-label="Admin-Schlüssel anzeigen"
+    >👁️</button>
+</div>
 
     <button class="primary" onclick="adminLogin()">
       🔓 Anmelden
@@ -527,6 +535,15 @@ function pinAnzeige() {
     text.trim();
 }
 
+function adminKeyAnzeigen() {
+    const feld = document.getElementById("adminKey");
+
+    if (feld.type === "password") {
+        feld.type = "text";
+    } else {
+        feld.type = "password";
+    }
+}
 
 async function mitarbeiterLogin() {
 
