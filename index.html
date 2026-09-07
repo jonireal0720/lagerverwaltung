@@ -552,6 +552,9 @@ async function mitarbeiterLogin() {
     const data = await response.json();
 
     if (!response.ok || !data.ok) {
+      
+pin = "";
+pinAnzeige();
 
       showMessage(
         "pinMessage",
@@ -559,8 +562,6 @@ async function mitarbeiterLogin() {
         "error"
       );
 
-      pin = "";
-      pinAnzeige();
 
       return;
     }
